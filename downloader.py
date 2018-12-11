@@ -13,6 +13,7 @@ class Downloader:
         self.stop_event = stop
 
     def get_json(self, url):
+        """Requests JSON returns None if response is non-JSON"""
         try:
             r = requests.get(url)
             if r.status_code == 200:
@@ -24,11 +25,13 @@ class Downloader:
             return None
 
     def check_stops(self):
+        """If stops changed strone new version to DB"""
         stops_now = self.get_json(self.stops_url)
         if not stops_now == self.data_storage.get_one('stops'):
             self.data_storage.store('stops', stops_now)
 
     def check_vehicles(self):
+        """Downloads and filters vehicles"""
         data = self.get_json(self.vehicles_url)
         if data:
             vehicles = data['Data']
@@ -50,6 +53,7 @@ class Downloader:
             print('No vehicles')
 
     def run(self):
+        """Runs in loop - downloads data after specified interval"""
         while not self.stop_event.is_set():
             self.check_vehicles()
             self.check_stops()
