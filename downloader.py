@@ -1,13 +1,16 @@
 import requests
 import simplejson
+import time
 
 
 class Downloader:
-    def __init__(self, data_storage, stops_url, vehicles_url, lines):
+    def __init__(self, data_storage, stops_url, vehicles_url, lines, stop, interval):
+        self.interval = interval
         self.stops_url = stops_url
         self.vehicles_url = vehicles_url
         self.data_storage = data_storage
         self.lines = lines
+        self.stop_event = stop
 
     def get_json(self, url):
         try:
@@ -45,3 +48,9 @@ class Downloader:
             )
         else:
             print('No vehicles')
+
+    def run(self):
+        while not self.stop_event.is_set():
+            self.check_vehicles()
+            self.check_stops()
+            time.sleep(self.interval)
