@@ -3,10 +3,11 @@ import simplejson
 
 
 class Downloader:
-    def __init__(self, data_storage, stops_url, vehicles_url):
+    def __init__(self, data_storage, stops_url, vehicles_url, lines):
         self.stops_url = stops_url
         self.vehicles_url = vehicles_url
         self.data_storage = data_storage
+        self.lines = lines
 
     def get_json(self, url):
         try:
