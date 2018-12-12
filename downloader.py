@@ -46,7 +46,7 @@ class Downloader:
                 'mhd_data',
                 {
                     'last_updated': data['LastUpdate'],
-                    'vehicle': filtered
+                    'vehicles': filtered
                 }
             )
         else:

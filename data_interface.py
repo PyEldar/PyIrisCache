@@ -11,23 +11,27 @@ class DataInterface:
         self.db[collection].insert_one(data)
 
     def get_by_line(self, line):
-        aggregation_string = [
-            {"$match": {'vehicles.Line': line}},
-            {"$project": {
-                "vehicles": {"$filter": {
-                    "input": '$vehicles',
-                    "as": 'vehicle',
-                    "cond": {"$eq: ['$$vehicle.Line', line]"}
-                }},
-                "last_updated": 1}
-            },
+        aggregation_string = [{
+            "$match": {
+                'vehicles.Line': line
+            }
+        },
+        {
+            "$project": {
+                "vehicles": {
+                    "$filter": {
+                        "input": '$vehicles',
+                        "as": 'vehicle',
+                        "cond": {
+                            "$eq: ['$$vehicle.Line', line]"
+                        }
+                    }
+                },
+                "last_updated": 1,
+            }
+        },
         ]
         return list(self.db.mhd_data.aggregate(aggregation_string))
 
     def get_one(self, collection):
         return self.db[collection].find_one({}, {"_id": 0}, sort=[('_id', DESCENDING)])
-
-
-if __name__ == '__main__':
-    db = DataInterface('iris_cache')
-    print(db.get_one('stops'))
