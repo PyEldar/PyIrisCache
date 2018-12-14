@@ -45,10 +45,11 @@ class Downloader:
             self.data_storage.store(
                 'mhd_data',
                 {
-                    'last_updated': data['LastUpdate'],
+                    'last_updated': data['LastUpdate'],  # Change this to store Datetime object
                     'vehicles': filtered
                 }
             )
+            print('Stored', data['LastUpdate'])
         else:
             print('No vehicles')
 
