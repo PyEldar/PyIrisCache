@@ -1,13 +1,14 @@
 """Shows calculated data"""
-import matplotlib
+import matplotlib.pyplot as plt
 
 
 class Viewer:
 
     def show(self, data, display=True, file='out.png'):
         if not display:
-            matplotlib.use('Agg')
-        import matplotlib.pyplot as plt
+            plt.switch_backend('Agg')
+        else:
+            plt.switch_backend('TkAgg')
 
         colors = {
             1: 'red',
@@ -32,4 +33,6 @@ class Viewer:
         for line in leg.get_lines():
             line.set_linewidth(10)
 
+        if display:
+            plt.show()
         fig.savefig(file)

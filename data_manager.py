@@ -52,7 +52,7 @@ class DataManager:
                 self.viewer.show(self.calculator.data, display=False, file=filename)
             else:
                 filename = input('Enter output filename\n')
-                self.viewer.show(self.calculator.data, display=False, file=filename)
+                self.viewer.show(self.calculator.data, display=True, file=filename)
 
 
 if __name__ == '__main__':
